@@ -1,0 +1,162 @@
+// react-bootstrap
+import Box from '@mui/material/Box';
+import Form from 'react-bootstrap/Form';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import axios from 'axios';
+import MainCard from 'components/Card/MainCard';
+import { useEffect, useState } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import { TablePaginationActions } from '../rekap';
+import PropTypes from 'prop-types';
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import { UserModal } from './component';
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+
+// -----------------------|| SAMPLE ||-----------------------//
+
+const getFormat = (date) => {
+  if(!date) return '';
+
+  return dayjs(date).utc().format('HH:mm');
+};
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+}
+
+export default function User() {
+  const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  
+  const getUsers = async () => {
+    const { data } = await axios.get('http://localhost:3000/api/admin/users', {
+      withCredentials: true,
+      params: {
+        search: search
+      }
+    });
+    setUsers(data.data);
+  }
+  useEffect(() => {
+    getUsers();
+  }, [search]);
+
+  // useEffect(() => {
+  //   const update
+  // })
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  return (
+    <Row>
+      <Col sm={12}>
+        <MainCard title="Pengguna">
+          <Box sx={{ display: 'flex', justifyContent: 'end', marginBottom: '1rem' }}>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Control type="search" placeholder="Cari pengguna" onChange={(e) => setSearch(e.target.value)} />
+            </Form.Group>
+            {/* <TextField id='search' label='Search' variant='outlined' size='small' type='search' /> */}
+          </Box>
+          {/* <Row className='justify-content-end'>
+            <Col xs={12} sm={8} md={6} lg={3}>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Control type="search" placeholder="Search" />
+              </Form.Group>
+            </Col>
+          </Row> */}
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 500 }} aria-label='users table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{fontWeight: 'bold' }}>Nama</TableCell>
+                  <TableCell style={{fontWeight: 'bold' }}>Email</TableCell>
+                  <TableCell style={{fontWeight: 'bold' }}>Satpel</TableCell>
+                  <TableCell style={{fontWeight: 'bold' }}>Jam Kerja</TableCell>
+                  <TableCell style={{fontWeight: 'bold' }}>Aksi</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              {
+                users.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{ item.user.username }</TableCell>
+                    <TableCell>{ item.user.email }</TableCell>
+                    <TableCell>{ item.satpel.name }</TableCell>
+                    <TableCell>
+                      {getFormat(item.user.jamKerja[0]?.time_in)}
+                      &nbsp;-&nbsp;
+                      {getFormat(item.user.jamKerja[0]?.time_out)}
+                    </TableCell>
+                    <TableCell>
+                      <UserModal userId={item.user_id} onSuccess={getUsers} />
+                      {/* <IconButton aria-label='edit' size='small' color='primary'>
+                        <EditIcon fontSize='inherit'/>
+                      </IconButton> */}
+                      {/* <Box sx={{ backgroundColor: 'red'}}>
+                      <Button variant='contained'><EditIcon fontSize='small'/></Button>
+
+                      </Box> */}
+                    </TableCell>
+                  </TableRow>
+                ))
+              }
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                {
+                  users.length >= 10 && (
+                  <TablePagination 
+                    rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
+                    colSpan={3}
+                    count={users.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    slotProps={{
+                      select: {
+                        inputProps: {
+                          'aria-label': 'rows per page',
+                        },
+                        native: true,
+                      },
+                    }}    
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                  )
+                }
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </MainCard>
+      </Col>
+    </Row>
+  );
+}
