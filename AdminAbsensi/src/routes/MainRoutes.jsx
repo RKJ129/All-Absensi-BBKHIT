@@ -5,6 +5,7 @@ import GuestLayout from 'layouts/GuestLayout';
 import PrivateRoute from '../components/Routes/privateRoute';
 import User from '../views/user';
 import ManageAdmin from '../views/admin';
+import TunjanganPegawai from '../views/tunjangan';
 
 const DashboardSales = lazy(() => import('../views/dashboard/DashSales/index'));
 
@@ -52,6 +53,11 @@ const MainRoutes = {
               index: true,
               path: '/admin',
               element: <ManageAdmin />
+            },
+            {
+              index: true,
+              path: '/tunjangan',
+              element: <TunjanganPegawai />
             },
             {
               path: '/typography',

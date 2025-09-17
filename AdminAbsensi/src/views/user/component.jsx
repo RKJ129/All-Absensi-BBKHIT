@@ -32,8 +32,6 @@ export const UserModal = ({ userId, onSuccess }) => {
 
     const handleSubmit = async () => {
         try {
-            console.log("Form disubmit!");
-            console.log("ID : ", userId);
             const { data } = await axios.post('http://localhost:3000/api/admin/store/' + userId, {
                  satpel_id: satpelId,
                 time_in: timeIn,
@@ -56,7 +54,7 @@ export const UserModal = ({ userId, onSuccess }) => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Edit Pengguna</Modal.Title>
+                    <Modal.Title>Edit Pengguna</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={async (e)  => {

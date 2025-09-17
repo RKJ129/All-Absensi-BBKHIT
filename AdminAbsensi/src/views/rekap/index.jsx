@@ -214,10 +214,10 @@ export default function RekapAbsensi() {
         <MainCard title="Data Rekap Absensi">
 
           <Row className="justify-content-end">
-          <Stack direction='row' spacing={1}>
+            <Stack direction='row' spacing={1}>
               <ExcelExport data={groupedRows} fileName="RekapAbsensi" />
               <PDFExport sheetData={groupedRows}/>
-          </Stack>
+            </Stack>
 
             <Col xs={12} sm={8} md={6} lg={3} className="rounded me-2 p-0">
               <Form.Group className="mb-3" controlId="formSearch">

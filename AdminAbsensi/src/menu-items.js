@@ -46,6 +46,14 @@ const menuItems = {
           'iconname': 'supervisor_account',
           url: '/admin'
         },
+        {
+          id: 'tunjangan',
+          title: 'Tunjangan Pegawai',
+          type: 'item',
+          'icon': 'material-icons-two-tone',
+          'iconname': 'account_balance_wallet',
+          url: '/tunjangan'
+        },
       ]
     },
     {
