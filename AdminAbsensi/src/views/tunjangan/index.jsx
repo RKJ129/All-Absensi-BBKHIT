@@ -1,5 +1,6 @@
 // react-bootstrap
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -10,6 +11,7 @@ import MainCard from 'components/Card/MainCard';
 import { useEffect, useState } from 'react';
 import { Row, Col, Table } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import { ExportExcelTunjangan } from './component';
 
 // -----------------------|| SAMPLE ||-----------------------//
 
@@ -33,12 +35,13 @@ export default function TunjanganPegawai() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
-  const getTunjangan = async () => {
+  const getTunjangan = async (excel = "") => {
     try {
       const { data } = await axios.get('http://localhost:3000/api/admin/tunjangan', {
         params: {
           month: selectedMonth,
-          year: selectedYear
+          year: selectedYear,
+          excel: excel
         }, 
         withCredentials: true
       });
@@ -60,7 +63,9 @@ export default function TunjanganPegawai() {
   const yearNow = new Date().getFullYear();
   for(let i = yearNow - 5; i <= yearNow; i++ ) {
     years.push(i);
-  }
+  };
+
+  console.log('Tunjangan : ', tunjangan);
 
   return (
     <Row>
@@ -68,6 +73,9 @@ export default function TunjanganPegawai() {
         <MainCard title="Tunjangan Pegawai">
           <div>
             <Row className="justify-content-end">
+              <div>
+                <ExportExcelTunjangan data={tunjangan} fileName='Potongan_Tunjangan' />
+              </div>
             
                         <Col xs={12} sm={8} md={6} lg={3} className="rounded me-2 p-0">
                           <Form.Group className="mb-3" controlId="formSearch">

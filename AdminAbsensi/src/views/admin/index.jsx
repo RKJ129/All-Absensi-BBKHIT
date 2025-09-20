@@ -16,10 +16,11 @@ import { TablePaginationActions } from '../rekap';
 import PropTypes from 'prop-types';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import { CreateAdmin } from './components';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
+import Create from './components/create';
+import Edit from './components/edit';
 
 // -----------------------|| SAMPLE ||-----------------------//
 
@@ -69,7 +70,7 @@ export default function ManageAdmin() {
         <MainCard title="Manajemen Admin">
         <Stack direction='horizontal' gap={3}>
           <div className='p2'>
-            <CreateAdmin onCreate={getAdmin} />
+            <Create onStore={getAdmin} />
           </div>
           <div className='p-2 ms-auto'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -81,9 +82,10 @@ export default function ManageAdmin() {
             <Table sx={{ minWidth: 500 }} aria-label='users table'>
               <TableHead>
                 <TableRow>
+                  <TableCell style={{fontWeight: 'bold' }}>Foto</TableCell>
                   <TableCell style={{fontWeight: 'bold' }}>Nama</TableCell>
                   <TableCell style={{fontWeight: 'bold' }}>Email</TableCell>
-                  <TableCell style={{fontWeight: 'bold' }}>Role</TableCell>
+                  {/* <TableCell style={{fontWeight: 'bold' }}>Role</TableCell> */}
                   {/* <TableCell style={{fontWeight: 'bold' }}></TableCell> */}
                   <TableCell style={{fontWeight: 'bold' }}>Aksi</TableCell>
                 </TableRow>
@@ -92,9 +94,14 @@ export default function ManageAdmin() {
                 {
                   dataAdmin.map((data, index) => (
                     <TableRow key={index}>
+                      <TableCell>
+                      <div className='rounded-circle m-auto' style={{ width: '80px', height: '80px' }}>
+                        <img style={{ width: '100%', height: '100%' }} src='http://localhost:3000/image/default-profile.jpeg' />
+                      </div>
+                      </TableCell>
                       <TableCell>{ data.username }</TableCell>
                       <TableCell>{ data.email }</TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         {
                           data.roles?.map((role, i) => (
                             <Stack key={i} direction='horizontal' gap={2}>
@@ -104,8 +111,9 @@ export default function ManageAdmin() {
                             </Stack>
                           ))
                         }
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
+                        <Edit id={data.id} onUpdate={getAdmin} />
                         <IconButton aria-label='delete' size='medium' color='primary' onClick={() => destroy(data.id)}>
                             <DeleteIcon fontSize='inherit' />
                         </IconButton>
