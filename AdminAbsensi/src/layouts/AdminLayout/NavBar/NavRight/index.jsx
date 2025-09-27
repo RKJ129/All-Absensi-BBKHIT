@@ -44,7 +44,7 @@ export default function NavRight() {
                 <span className="badge bg-light-success">Pro</span>
               </h5>
             </Dropdown.Header>
-            <Link to="/users/user-profile" className="dropdown-item">
+            <Link to="/profile" className="dropdown-item">
               <i className="feather icon-user" /> Profile
             </Link>
             <Link to="/auth/signin-2" className="dropdown-item">

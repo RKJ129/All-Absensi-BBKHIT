@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import Create from './components/create';
 import Edit from './components/edit';
+import ResetPasssword from './components/resetPasssword';
 
 // -----------------------|| SAMPLE ||-----------------------//
 
@@ -113,6 +114,7 @@ export default function ManageAdmin() {
                         }
                       </TableCell> */}
                       <TableCell>
+                        <ResetPasssword id={data.id} />
                         <Edit id={data.id} onUpdate={getAdmin} />
                         <IconButton aria-label='delete' size='medium' color='primary' onClick={() => destroy(data.id)}>
                             <DeleteIcon fontSize='inherit' />
