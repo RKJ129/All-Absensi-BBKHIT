@@ -54,6 +54,14 @@ const menuItems = {
           'iconname': 'account_balance_wallet',
           url: '/tunjangan'
         },
+        {
+          id: 'monitor',
+          title: 'Monitor Pegawai',
+          type: 'item',
+          'icon': 'material-icons-two-tone',
+          'iconname': 'map',
+          url: '/monitor-pegawai'
+        },
       ]
     },
     {

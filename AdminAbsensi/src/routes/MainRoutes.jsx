@@ -7,6 +7,7 @@ import User from '../views/user';
 import ManageAdmin from '../views/admin';
 import TunjanganPegawai from '../views/tunjangan';
 import Profile from '../views/profile';
+import MonitorPegawai from '../views/monitor';
 
 const DashboardSales = lazy(() => import('../views/dashboard/DashSales/index'));
 
@@ -85,10 +86,13 @@ const MainRoutes = {
               path: '/icons/material',
               element: <MaterialIcon />
             },
-    
             {
               path: '/sample-page',
               element: <Sample />
+            },
+            {
+              path: '/monitor-pegawai',
+              element: <MonitorPegawai />
             },
             {
               path: '*',

@@ -7,70 +7,34 @@ import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 
-
+import EditProfile from './components/editProfile';
+import ChangePassword from './components/changePassword';
 
 // -----------------------|| SAMPLE ||-----------------------//
 
 export default function Profile() {
   const [profile, setProfile] = useState({});
-  const [username, setUsername] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [email, setEmail] = useState('');
-  const [preview, setPreview] = useState("https://picsum.photos/200/300");
-
-  const indexProfile = useCallback(async () => {
-    try {
-      const { data } = await axios.get('http://localhost:3000/api/admin/profile', { withCredentials: true });
-      console.log('Profile data : ', data);
-      setProfile(data.result);
-      const payload = data.result;
-      setUsername(payload.username);
-      setFirstname(payload.firstname);
-      setLastname(payload.lastname);
-      setEmail(payload.email);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-
-  useEffect(() => {
-    indexProfile();
-  }, [indexProfile]);
-
-  const updateProfile = async () => {
-    try {
-      await axios.patch('http://localhost:3000/api/admin/profile/update', {
-        username: username,
-        firstname: firstname,
-        lastname: lastname,
-        email: email
-      }, { withCredentials: true });
-      indexProfile();
-      console.log('Berhasil update profile');
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const [preview, setPreview] = useState("default-profile.jpeg");
+  const [activeTab, setActiveTab] = useState("profile");
 
   const handleFileChange = async (e) => {
 
     const file = e.target.files[0];
     if(!file) return;
 
-    setPreview(URL.createObjectURL(file));
-
     const formData = new FormData();
     formData.append('photo', file);
 
     try {
-      await axios.patch('http://localhost:3000/api/admin/profile/update-photo', formData, {
+      const { data } = await axios.patch('http://localhost:3000/api/admin/profile/update-photo', formData, {
         headers: {
           "Content-Type": 'multipart/form-data'
         },
         withCredentials: true
-      })
+      });
+
+      const photo = data.result.photo_url;
+      setPreview(photo);
     } catch (error) {
       console.error(error);
     }
@@ -81,49 +45,51 @@ export default function Profile() {
   return (
     <Row className='pt-4'>
       <Col sm={12} lg={8} xs={{ order: 2 }} md={{ order: 1 }}>
-      <Card>
-        <Card.Body>
-          <div className=' position-relative' style={{ marginBottom: '2.5rem' }}>
-            <div className='d-flex align-items-center position-absolute bg-primary rounded-3 px-1' style={{ top: '-3rem', left: '-0.65rem', width: '105%' }}>
-                  <p className='text-white align-self-center my-3 mx-2 fs-5'>Edit Profile</p>
-            </div>
-          </div>
-          {/* <Box>
-            <TextField id='inputUsername' label='Username' variant='standard' />
-          </Box> */}
-          <Col sm={10}>
-            <Form onSubmit={async (e) => {
-              e.preventDefault();
-              updateProfile();
-            }}>
-              <Form.Group className='mb-3' controlId='inputUsername'>
-                <Form.Label>Username :</Form.Label>
-                <Form.Control type='text' placeholder='Username' value={username || ''} onChange={(e) => setUsername(e.target.value)} />
-              </Form.Group>
-              <Row>
-                <Col sm={6}>
-                    <Form.Group className='mb-3' controlId='inputFirstname'>
-                      <Form.Label>Firstname :</Form.Label>
-                      <Form.Control type='text' placeholder='Firstname' value={firstname || ''} onChange={(e) => setFirstname(e.target.value)} />
-                    </Form.Group>
-                </Col>
-                <Col sm={6}>
-                    <Form.Group className='mb-3' controlId='inputFirstname'>
-                      <Form.Label>Lastname :</Form.Label>
-                      <Form.Control type='text' placeholder='Lastname' value={lastname || ''} onChange={(e) => setLastname(e.target.value)} />
-                    </Form.Group>
-                </Col>
-              </Row>
-              <Form.Group className='mb-3' controlId='inputEmail'>
-                <Form.Label>Email :</Form.Label>
-                <Form.Control type='email' placeholder='name@email.com' value={email || ''} onChange={(e) => setEmail(e.target.value)} />
-              </Form.Group>
-                <Button type='submit' variant='primary' size='lg'>Submit</Button>
-            </Form>
-          </Col>
+        <Card>
+          <Card.Body>
+            <div className=' position-relative' style={{ marginBottom: '2.5rem' }}>
+              <div className='d-flex align-items-center position-absolute bg-primary rounded-3 px-1' style={{ top: '-3rem', left: '-0.65rem', width: '105%' }}>
+                <a  
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveTab('profile');
+                  }}
+                  className={`px-2 py-1 m-2 rounded text-white ${
+                    activeTab === "profile" ? "bg-danger" : ""
+                  }`}
 
-        </Card.Body>
-      </Card>
+                  style={{ transition: 'background-color 0.3s, color 0.3s' }}
+                >
+                  Edit Profile
+                </a>
+                <a  
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveTab('password');
+                  }}
+                  className={`px-3 py-1 m-2 rounded text-white ${
+                    activeTab === "password" ? "bg-danger" : ""
+                  }`}
+
+                  style={{ transition: 'background-color 0.3s, color 0.3s' }}
+                >
+                  Ubah Password
+                </a>
+              
+              </div>
+            </div>
+
+            {
+              activeTab === 'profile' ? 
+                <EditProfile setProfile={setProfile} setPreview={setPreview} />
+                :
+                <ChangePassword />
+            }
+
+            
+
+          </Card.Body>
+        </Card>
       </Col>
       
       <Col sm={4} xs={{ order: 1 }} md={{ order: 2 }}>
@@ -132,7 +98,7 @@ export default function Profile() {
           </div>
           <div className='position-relative' style={{ marginBottom: '4.2rem' }}>
           <div className='position-absolute start-50 translate-middle' style={{ top: '-0.5rem' }}>
-            <Image src={preview} roundedCircle style={{ objectFit: 'cover' }} width='155px' height='155px' />
+            <Image src={'http://localhost:3000/image/' + preview} roundedCircle style={{ objectFit: 'cover' }} width='155px' height='155px' />
             <div 
               className=''
               style={{
@@ -168,9 +134,8 @@ export default function Profile() {
                 name='photo'
                 accept='image/*'
                 className='d-none'
-                onClick={handleFileChange}
+                onChange={handleFileChange}
               />
-              
 
           </div>
           </div>
