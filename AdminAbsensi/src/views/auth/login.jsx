@@ -15,8 +15,9 @@ import axios from 'axios';
 
 export default function SignIn1() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [validate, setValidate] = useState({});
 
   const login = async () => {
     try {
@@ -34,7 +35,11 @@ export default function SignIn1() {
         navigate('/dashboard/sales');
       }
     } catch (error) {
-      console.error("Login gagal : ", error);
+      console.error("Login gagal : ", error.response);
+      const { errors } = error.response.data;
+      const status = error.response?.status;
+      console.log('Status : ', status);
+      setValidate(errors);
     }
   }
   
@@ -47,18 +52,24 @@ export default function SignIn1() {
               <Card.Body className="card-body">
                 <img src={logoDark} alt="" className="img-fluid mb-4" />
                 <h4 className="mb-3 f-w-400">Signin</h4>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text>
-                    <FeatherIcon icon="mail" />
-                  </InputGroup.Text>
-                  <Form.Control type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} />
-                </InputGroup>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text>
-                    <FeatherIcon icon="lock" />
-                  </InputGroup.Text>
-                  <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                </InputGroup>
+                <div className='mb-3'>
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <FeatherIcon icon="mail" />
+                    </InputGroup.Text>
+                    <Form.Control type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} />
+                  </InputGroup>
+                  <Form.Text>{ validate.email && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.email}</p> }</Form.Text>
+                </div>
+                <div className="mb-3">
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <FeatherIcon icon="lock" />
+                    </InputGroup.Text>
+                    <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                  </InputGroup>
+                  <Form.Text>{ validate.password && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.password}</p> }</Form.Text>
+                </div>
                 <Form.Group>
                   <Form.Check type="checkbox" className="text-left mb-4 mt-2" label="Save Credentials." defaultChecked />
                 </Form.Group>

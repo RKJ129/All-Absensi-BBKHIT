@@ -5,6 +5,8 @@ import axios from 'axios';
 
 export default function EditProfile ({ setProfile, setPreview }) {
 
+    const [validate, setValidate] = useState({});
+
     const [username, setUsername] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -43,7 +45,11 @@ export default function EditProfile ({ setProfile, setPreview }) {
         indexProfile();
         console.log('Berhasil update profile');
         } catch (error) {
-        console.error(error);
+            console.error(error);
+            if(error.response?.status === 422) {
+                const { errors } = error.response?.data;
+                setValidate(errors);
+            }
         }
     }
 
@@ -54,28 +60,40 @@ export default function EditProfile ({ setProfile, setPreview }) {
                     e.preventDefault();
                     updateProfile();
                 }}>
-                    <Form.Group className='mb-3' controlId='inputUsername'>
-                        <Form.Label>Username :</Form.Label>
-                        <Form.Control type='text' placeholder='Username' value={username || ''} onChange={(e) => setUsername(e.target.value)} />
-                    </Form.Group>
+                    <div className='mb-3'>
+                        <Form.Group className='mb-1' controlId='inputUsername'>
+                            <Form.Label>Username :</Form.Label>
+                            <Form.Control type='text' placeholder='Username' value={username || ''} onChange={(e) => setUsername(e.target.value)} />
+                        </Form.Group>
+                        <Form.Text>{ validate.username && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.username}</p> }</Form.Text>
+                    </div>
                     <Row>
                         <Col sm={6}>
-                            <Form.Group className='mb-3' controlId='inputFirstname'>
-                            <Form.Label>Firstname :</Form.Label>
-                            <Form.Control type='text' placeholder='Firstname' value={firstname || ''} onChange={(e) => setFirstname(e.target.value)} />
-                            </Form.Group>
+                            <div className='mb-3'>
+                                <Form.Group className='mb-1' controlId='inputFirstname'>
+                                    <Form.Label>Firstname :</Form.Label>
+                                    <Form.Control type='text' placeholder='Firstname' value={firstname || ''} onChange={(e) => setFirstname(e.target.value)} />
+                                </Form.Group>
+                                <Form.Text>{ validate.firstname && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.firstname}</p> }</Form.Text>
+                            </div>
                         </Col>
                         <Col sm={6}>
-                            <Form.Group className='mb-3' controlId='inputFirstname'>
-                            <Form.Label>Lastname :</Form.Label>
-                            <Form.Control type='text' placeholder='Lastname' value={lastname || ''} onChange={(e) => setLastname(e.target.value)} />
-                            </Form.Group>
+                            <div className='mb-3'>
+                                <Form.Group className='mb-1' controlId='inputFirstname'>
+                                    <Form.Label>Lastname :</Form.Label>
+                                    <Form.Control type='text' placeholder='Lastname' value={lastname || ''} onChange={(e) => setLastname(e.target.value)} />
+                                </Form.Group>
+                                <Form.Text>{ validate.lastname && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.lastname}</p> }</Form.Text>
+                            </div>
                         </Col>
                     </Row>
-                    <Form.Group className='mb-3' controlId='inputEmail'>
-                        <Form.Label>Email :</Form.Label>
-                        <Form.Control type='email' placeholder='name@email.com' value={email || ''} onChange={(e) => setEmail(e.target.value)} />
-                    </Form.Group>
+                    <div className='mb-3'>
+                        <Form.Group className='mb-1' controlId='inputEmail'>
+                            <Form.Label>Email :</Form.Label>
+                            <Form.Control type='email' placeholder='name@email.com' value={email || ''} onChange={(e) => setEmail(e.target.value)} />
+                        </Form.Group>
+                        <Form.Text>{ validate.email && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.email}</p> }</Form.Text>
+                    </div>
                     <Button type='submit' variant='primary' size='lg'>Submit</Button>
                 </Form>
             </Col>
