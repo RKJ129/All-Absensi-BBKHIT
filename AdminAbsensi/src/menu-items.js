@@ -62,6 +62,14 @@ const menuItems = {
           'iconname': 'map',
           url: '/monitor-pegawai'
         },
+        {
+          id: 'satpel',
+          title: 'Satuan Pelayanan',
+          type: 'item',
+          'icon': 'material-icons-two-tone',
+          'iconname': 'location_city',
+          url: '/satpel'
+        },
       ]
     },
     {

@@ -27,12 +27,6 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { ExcelExport, PDFExport } from './components';
 import Stack from '@mui/material/Stack';
 
-// import Accordion from '@mui/material/Accordion';
-// import AccordionSummary from '@mui/material/AccordionSummary';
-// import AccordionDetails from '@mui/material/AccordionDetails';
-// import Typography from '@mui/material/Typography';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 // -----------------------|| SAMPLE ||-----------------------//
 
 export function TablePaginationActions(props) {

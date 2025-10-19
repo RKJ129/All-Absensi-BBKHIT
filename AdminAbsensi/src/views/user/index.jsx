@@ -56,10 +56,6 @@ export default function User() {
     getUsers();
   }, [search]);
 
-  // useEffect(() => {
-  //   const update
-  // })
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
@@ -81,15 +77,7 @@ export default function User() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Control type="search" placeholder="Cari pengguna" onChange={(e) => setSearch(e.target.value)} />
             </Form.Group>
-            {/* <TextField id='search' label='Search' variant='outlined' size='small' type='search' /> */}
           </Box>
-          {/* <Row className='justify-content-end'>
-            <Col xs={12} sm={8} md={6} lg={3}>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Control type="search" placeholder="Search" />
-              </Form.Group>
-            </Col>
-          </Row> */}
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 500 }} aria-label='users table'>
               <TableHead>
@@ -103,7 +91,7 @@ export default function User() {
               </TableHead>
               <TableBody>
               {
-                users.map((item, index) => (
+                users?.map((item, index) => (
                   <TableRow key={index}>
                     <TableCell>{ item.user.username }</TableCell>
                     <TableCell>{ item.user.email }</TableCell>
@@ -115,13 +103,6 @@ export default function User() {
                     </TableCell>
                     <TableCell>
                       <UserModal userId={item.user_id} onSuccess={getUsers} />
-                      {/* <IconButton aria-label='edit' size='small' color='primary'>
-                        <EditIcon fontSize='inherit'/>
-                      </IconButton> */}
-                      {/* <Box sx={{ backgroundColor: 'red'}}>
-                      <Button variant='contained'><EditIcon fontSize='small'/></Button>
-
-                      </Box> */}
                     </TableCell>
                   </TableRow>
                 ))
@@ -130,7 +111,7 @@ export default function User() {
               <TableFooter>
                 <TableRow>
                 {
-                  users.length >= 10 && (
+                  users?.length >= 10 && (
                   <TablePagination 
                     rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
                     colSpan={3}

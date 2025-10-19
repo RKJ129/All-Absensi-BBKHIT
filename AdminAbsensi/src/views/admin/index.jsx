@@ -1,7 +1,6 @@
 // react-bootstrap
 import MainCard from 'components/Card/MainCard';
 import { Row, Col, Stack } from 'react-bootstrap';
-import Box from '@mui/material/Box';
 import Form from 'react-bootstrap/Form';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -27,6 +26,8 @@ import ResetPasssword from './components/resetPasssword';
 
 export default function ManageAdmin() {
   const [dataAdmin, setDataAdmin] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
     
   const getAdmin = useCallback(async() => {
     try {
@@ -86,8 +87,6 @@ export default function ManageAdmin() {
                   <TableCell style={{fontWeight: 'bold' }}>Foto</TableCell>
                   <TableCell style={{fontWeight: 'bold' }}>Nama</TableCell>
                   <TableCell style={{fontWeight: 'bold' }}>Email</TableCell>
-                  {/* <TableCell style={{fontWeight: 'bold' }}>Role</TableCell> */}
-                  {/* <TableCell style={{fontWeight: 'bold' }}></TableCell> */}
                   <TableCell style={{fontWeight: 'bold' }}>Aksi</TableCell>
                 </TableRow>
               </TableHead>
@@ -102,17 +101,6 @@ export default function ManageAdmin() {
                       </TableCell>
                       <TableCell>{ data.username }</TableCell>
                       <TableCell>{ data.email }</TableCell>
-                      {/* <TableCell>
-                        {
-                          data.roles?.map((role, i) => (
-                            <Stack key={i} direction='horizontal' gap={2}>
-                              <div className={`text-capitalize bg-${colors[role.name]} mb-2 text-white px-1 rounded-2`} style={{ fontSize: '0.8rem' }}>
-                                { role.name }
-                              </div>
-                            </Stack>
-                          ))
-                        }
-                      </TableCell> */}
                       <TableCell>
                         <ResetPasssword id={data.id} />
                         <Edit id={data.id} onUpdate={getAdmin} />
@@ -126,12 +114,12 @@ export default function ManageAdmin() {
               </TableBody>
               <TableFooter>
                 <TableRow>
-                  {/* {
-                    users.length >= 10 && (
+                  {
+                    dataAdmin?.length >= 10 && (
                       <TablePagination 
                         rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
                         colSpan={3}
-                        count={users.length}
+                        count={dataAdmin.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         slotProps={{
@@ -147,7 +135,7 @@ export default function ManageAdmin() {
                         ActionsComponent={TablePaginationActions}
                       />
                     )
-                  } */}
+                  }
                 </TableRow>
               </TableFooter>
             </Table>

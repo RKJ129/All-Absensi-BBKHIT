@@ -54,16 +54,6 @@ export default function MonitorPegawai() {
               </Marker>
             ))
           }
-          {/* <Marker position={[-1.1956427, 116.8815571]}>
-            <Popup>
-              This is a popup
-            </Popup>
-          </Marker>
-          <Marker position={[-1.2250019, 116.8559043]}>
-            <Popup>
-              This is a popup
-            </Popup>
-          </Marker> */}
         </MapContainer>
       </Col>
       <Col sm={12} className='mt-3'>

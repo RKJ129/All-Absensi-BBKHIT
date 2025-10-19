@@ -5,8 +5,7 @@ import IconButton from "@mui/material/IconButton";
 
 import Form from 'react-bootstrap/Form';
 
-import Button from 'react-bootstrap/Button';
-import { Modal, Stack } from "react-bootstrap";
+import { Modal, Stack, Button } from "react-bootstrap";
 import axios from "axios";
 
 const CreateAdmin = ({ onStore }) => {

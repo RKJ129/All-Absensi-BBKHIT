@@ -9,8 +9,8 @@ import { green } from '@mui/material/colors';
 
 export const ExportExcelTunjangan = ({ data, fileName }) => {
     let dates = Array.from({ length: 30 }).map((_, i) => `${i + 1}`);
-    const headers = ['Nama', ...dates, 'Hadir', 'Terlambat', 'Pulang Sebelum Waktunya', 'Izin', 'Sakit', 'Absen'];
-
+    const headers = ['Nama', ...dates, 'Hadir', 'Terlambat', 'Pulang Sebelum Waktunya', 'Izin', 'Sakit', 'Absen', 'Potongan'];
+    console.log('Data Tunjangan : ', data);
     const getFormat = (date) => {
         return new Date(date);
     }
@@ -28,28 +28,45 @@ export const ExportExcelTunjangan = ({ data, fileName }) => {
     data.forEach(tunjangan => {
         const result = [];
 
-        result.push(tunjangan.username);
-        // console.log('Attendances : ', tunjangan.attendances);
-        tunjangan.attendances?.forEach((att, i) => {
+        result.push(tunjangan.username); //masukkan nama
+        dates.forEach(date => {
+            const attendance = tunjangan.attendances?.find(
+                att => getFormat(att.date).getDate() === Number(date)
+            );
 
-            // console.log('att : ', att);
-
-            // console.log('DATES ARRAY : ', dates[i]);
-            // console.log('GET DATES : ', getFormat(att.date).getDate());
-            if(dates[i] == getFormat(att.date).getDate()) {
-                // console.log('Dates TRUE');
+            if(attendance) {
                 let status = [];
-                att.attendanceLocation?.forEach(loc => {
+                attendance.attendanceLocation?.forEach(loc => {
                     if(types[loc.status]) {
                         status.push(types[loc.status]);
                     }
                 });
-                
+
                 result.push(status.join(', '));
+            } else {
+                result.push('');
             }
         });
 
+        const summary = tunjangan.summary;
+        result.push(
+            summary.PRESENT, 
+            summary.LATE, 
+            summary.LEFT_EARLY, 
+            summary.EXCUSED, 
+            summary.SICK, 
+            summary.ABSENT);
+
+        //  Potongan : 
+        const potongan = ((summary.LATE + summary.LEFT_EARLY) * 2) 
+            + (summary.ABSENT * 4) 
+            + (summary.EXCUSED * 4) 
+            + (summary.SICK * 2);
+
+        result.push(potongan);
+
         sheetData.push(result);
+
     });
 
     console.log('Sheet Data Tunjangan : ', sheetData);

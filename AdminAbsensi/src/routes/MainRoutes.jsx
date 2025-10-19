@@ -24,6 +24,7 @@ const Register = lazy(() => import('../views/auth/register'));
 const Sample = lazy(() => import('../views/sample'));
 
 const Rekap = lazy(() => import('../views/rekap'));
+const Satpel = lazy(() => import('../views/satpel'));
 
 const MainRoutes = {
   // element
@@ -60,6 +61,11 @@ const MainRoutes = {
               index: true,
               path: '/tunjangan',
               element: <TunjanganPegawai />
+            },
+            {
+              index: true,
+              path: '/satpel',
+              element: <Satpel />
             },
             {
               index: true,
