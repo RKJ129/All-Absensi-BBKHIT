@@ -33,8 +33,6 @@ export const ExcelExport = ({ data, fileName }) => {
         sheetData.push([]);
     });
 
-    console.log('Sheet Data : ', sheetData);
-
     const exportToExcel = () => {
         const worksheet = XLSX.utils.aoa_to_sheet([headers, ...sheetData]);
         const workbook = XLSX.utils.book_new();
@@ -43,8 +41,6 @@ export const ExcelExport = ({ data, fileName }) => {
         const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(blob, `${fileName}.xlsx`);
     }
-
-    
 
     return (
       <Button 
@@ -82,7 +78,7 @@ export const  PDFExport = ({ sheetData }) => {
       doc.setFontSize(12);
       doc.text(`Nama: ${user.name}`, 14, 25);   
 
-      // Header + Body tabel
+      // Header & Body tabel
       const headers = [["Hari", "Tanggal", "Jam", "Tipe", "Status"]];
       const body = user.records.map(r => [
         r.hari,

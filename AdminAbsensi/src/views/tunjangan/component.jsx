@@ -4,9 +4,6 @@ import * as XLSX from "xlsx";
 import TableChartIcon from '@mui/icons-material/TableChart';
 import { green } from '@mui/material/colors';
 
-
-
-
 export const ExportExcelTunjangan = ({ data, fileName }) => {
     let dates = Array.from({ length: 30 }).map((_, i) => `${i + 1}`);
     const headers = ['Nama', ...dates, 'Hadir', 'Terlambat', 'Pulang Sebelum Waktunya', 'Izin', 'Sakit', 'Absen', 'Potongan'];
@@ -68,8 +65,6 @@ export const ExportExcelTunjangan = ({ data, fileName }) => {
         sheetData.push(result);
 
     });
-
-    console.log('Sheet Data Tunjangan : ', sheetData);
 
     const exportToExcel = () => {
         const worksheet = XLSX.utils.aoa_to_sheet([headers, ...sheetData]);
