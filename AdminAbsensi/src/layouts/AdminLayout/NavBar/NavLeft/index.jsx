@@ -11,9 +11,9 @@ export default function NavLeft() {
   return (
     <ListGroup as="ul" bsPrefix=" " className="list-unstyled">
       <Dropdown as="li" className="pc-h-item">
-        <Dropdown.Toggle as="a" variant="link" className="pc-head-link arrow-none me-0 active ">
+        {/* <Dropdown.Toggle as="a" variant="link" className="pc-head-link arrow-none me-0 active ">
           Level
-        </Dropdown.Toggle>
+        </Dropdown.Toggle> */}
         <Dropdown.Menu className="pc-h-dropdown">
           <Dropdown.Item className="dropdown-item" as={Link} to="#">
             <i className="material-icons-two-tone">account_circle</i>
@@ -36,10 +36,10 @@ export default function NavLeft() {
                 <i className="fas fa-circle" />
                 <span>Settings</span>
               </Link>
-              <Link className="dropdown-item" to="#">
+              {/* <Link className="dropdown-item" to="#">
                 <i className="fas fa-circle" />
                 <span>Lock Screen</span>
-              </Link>
+              </Link> */}
               <Link className="dropdown-item" to="#">
                 <i className="fas fa-circle" />
                 <span>Logout</span>

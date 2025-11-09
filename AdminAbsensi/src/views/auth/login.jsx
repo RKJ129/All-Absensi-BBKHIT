@@ -32,7 +32,7 @@ export default function SignIn1() {
       });
       console.log("Status : ", status);
       if(status === 200) {
-        navigate('/dashboard/sales');
+        navigate('/dashboard');
       }
     } catch (error) {
       console.error("Login gagal : ", error.response);

@@ -9,7 +9,8 @@ import TunjanganPegawai from '../views/tunjangan';
 import Profile from '../views/profile';
 import MonitorPegawai from '../views/monitor';
 
-const DashboardSales = lazy(() => import('../views/dashboard/DashSales/index'));
+const DashboardSales = lazy(() => import('../views/dashboard/index'));
+const DashboardAdminAbsensi = lazy(() => import('../views/dashboard/index'))
 
 const Typography = lazy(() => import('../views/ui-elements/basic/BasicTypography'));
 const Color = lazy(() => import('../views/ui-elements/basic/BasicColor'));
@@ -40,8 +41,8 @@ const MainRoutes = {
           children: [
             {
               index: true,
-              path: '/dashboard/sales',
-              element: <DashboardSales />
+              path: '/dashboard',
+              element: <DashboardAdminAbsensi />
             },
             {
               path: '/rekap',
