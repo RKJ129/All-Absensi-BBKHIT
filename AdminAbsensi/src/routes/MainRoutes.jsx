@@ -33,79 +33,100 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <PrivateRoute />,
+      element: <AdminLayout />,
       children: [
         {
-          path: '/',
-          element: <AdminLayout />,
-          children: [
-            {
-              index: true,
-              path: '/dashboard',
-              element: <DashboardAdminAbsensi />
-            },
-            {
-              path: '/rekap',
-              element: <Rekap />
-            },
-            {
-              index: true,
-              path: '/pengguna',
-              element: <User />
-            },
-            {
-              index: true,
-              path: '/admin',
-              element: <ManageAdmin />
-            },
-            {
-              index: true,
-              path: '/tunjangan',
-              element: <TunjanganPegawai />
-            },
-            {
-              index: true,
-              path: '/satpel',
-              element: <Satpel />
-            },
-            {
-              index: true,
-              path: '/profile',
-              element: <Profile />
-            },
-            {
-              path: '/typography',
-              element: <Typography />
-            },
-            {
-              path: '/color',
-              element: <Color />
-            },
-            {
-              path: '/icons/Feather',
-              element: <FeatherIcon />
-            },
-            {
-              path: '/icons/font-awesome-5',
-              element: <FontAwesome />
-            },
-            {
-              path: '/icons/material',
-              element: <MaterialIcon />
-            },
-            {
-              path: '/sample-page',
-              element: <Sample />
-            },
-            {
-              path: '/monitor-pegawai',
-              element: <MonitorPegawai />
-            },
-            {
-              path: '*',
-              element: <h1>Not Found</h1>
-            }
-          ]
+          index: true,
+          path: '/dashboard',
+          element: (
+            <PrivateRoute roles={['admin', 'superadmin']}>
+              <DashboardAdminAbsensi />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: '/rekap',
+          element: (
+            <PrivateRoute roles={['admin', 'superadmin']}>
+              <Rekap />
+            </PrivateRoute>
+          ),
+        },
+        {
+          index: true,
+          path: '/pengguna',
+          element: (
+            <PrivateRoute roles={['admin', 'superadmin']}>
+              <User />
+            </PrivateRoute>
+          ),
+        },
+        {
+          index: true,
+          path: '/admin',
+          element: (
+            <PrivateRoute roles={['superadmin']}>
+              <ManageAdmin />
+            </PrivateRoute>
+          ),
+        },
+        {
+          index: true,
+          path: '/tunjangan',
+          element: <TunjanganPegawai />,
+          roles: ['admin', 'superadmin']
+        },
+        {
+          index: true,
+          path: '/satpel',
+          element: (
+            <PrivateRoute roles={['superadmin']}>
+              <Satpel />
+            </PrivateRoute>
+          ),
+          roles: ['superadmin']
+        },
+        {
+          index: true,
+          path: '/profile',
+          element: <Profile />,
+          roles: ['admin', 'superadmin']
+        },
+        {
+          path: '/typography',
+          element: <Typography />,
+        },
+        {
+          path: '/color',
+          element: <Color />
+        },
+        {
+          path: '/icons/Feather',
+          element: <FeatherIcon />
+        },
+        {
+          path: '/icons/font-awesome-5',
+          element: <FontAwesome />
+        },
+        {
+          path: '/icons/material',
+          element: <MaterialIcon />
+        },
+        {
+          path: '/sample-page',
+          element: <Sample />
+        },
+        {
+          path: '/monitor-pegawai',
+          element:  (
+            <PrivateRoute roles={['superadmin']}>
+              <MonitorPegawai />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: '*',
+          element: <h1>Not Found</h1>
         }
       ]
     },

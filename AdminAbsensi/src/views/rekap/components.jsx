@@ -1,4 +1,5 @@
 import { saveAs } from 'file-saver';
+import ExcelJS from "exceljs";
 import * as XLSX from "xlsx";
 import { jsPDF } from 'jspdf'
 import { autoTable } from 'jspdf-autotable'
@@ -9,37 +10,81 @@ import { red, lightGreen, green } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
 
 const headers = ['Hari', 'Tanggal', 'Jam', 'Tipe', 'Status', 'Koordinat'];
-
-// const manipulateData
+export function capitalizeFirstLetter(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
 
 export const ExcelExport = ({ data, fileName }) => {
 
-    const sheetData = [];
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Data Absensi');
 
-    data.forEach(user => {
-        sheetData.push([user.name]);
+    // Header
+    sheet.columns = [
+      { header: 'Hari', key: 'hari', width: 12 },
+      { header: 'Tanggal', key: 'tanggal', width: 15 },
+      { header: 'Jam', key: 'jam', width: 10 },
+      { header: 'Tipe', key: 'tipe', width: 10 },
+      { header: 'Status', key: 'status', width: 12 },
+      { header: 'Koordinat', key: 'koordinat', width: 25 },
+    ];
 
-        user.records.forEach(rec => {
-            sheetData.push([
-                rec.hari,
-                rec.tanggal,
-                rec.jam,
-                rec.tipe,
-                rec.status,
-                rec.koordinat,
-            ]);
-        });
-
-        sheetData.push([]);
+    // Header style
+    sheet.getRow(1).eachCell(cell => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF4CAF50' },
+      };
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
     });
 
-    const exportToExcel = () => {
-        const worksheet = XLSX.utils.aoa_to_sheet([headers, ...sheetData]);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-        saveAs(blob, `${fileName}.xlsx`);
+    // Isi data
+    data.forEach(user => {
+      // nama user
+      const rowNumber = sheet.lastRow.number + 1;
+      sheet.mergeCells(`A${rowNumber}:F${rowNumber}`);
+      const nameCell = sheet.getCell(`A${rowNumber}`);
+      nameCell.value = capitalizeFirstLetter(user.name);
+      nameCell.font = { bold: true, size: 13 };
+      nameCell.alignment = { horizontal: 'center' };
+
+      // data absensi
+      user.records.forEach(rec => {
+        sheet.addRow({
+          hari: rec.hari,
+          tanggal: rec.tanggal,
+          jam: rec.jam,
+          tipe: rec.tipe,
+          status: rec.status,
+          koordinat: rec.koordinat,
+        });
+      });
+    });
+
+    // Border semua isi
+    sheet.eachRow((row, rowNumber) => {
+      row.eachCell(cell => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
+
+    // Simpan file
+    const exportToExcel = async () => {
+      const buffer = await workbook.xlsx.writeBuffer();
+      saveAs(new Blob([buffer]), `${fileName}.xlsx`);
     }
 
     return (

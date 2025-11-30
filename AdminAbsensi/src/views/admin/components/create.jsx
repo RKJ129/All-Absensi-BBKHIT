@@ -25,6 +25,8 @@ const CreateAdmin = ({ onStore }) => {
         try {
             await axios.post('http://localhost:3000/api/admin/manage/store', {
                 username: username,
+                firstname: firstname,
+                lastname: lastname,
                 email: email,
                 password: password
             }, { withCredentials: true });
@@ -66,14 +68,14 @@ const CreateAdmin = ({ onStore }) => {
                             <div className="mb-2">
                                 <Form.Group className="mb-1" controlId="input_firstname">
                                     <Form.Label>Nama depan : </Form.Label>
-                                    <Form.Control placeholder="Masukkan firstname" onChange={(e) => setFirstname(e.target.value)} />
+                                    <Form.Control placeholder="Masukkan firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                                 </Form.Group>
                                 <Form.Text>{ validate.firstname && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.firstname}</p> }</Form.Text>
                             </div>
                             <div className="mb-2">
                                 <Form.Group className="mb-1" controlId="input_lastname">
                                     <Form.Label>Nama belakang : </Form.Label>
-                                    <Form.Control placeholder="Masukkan lastname" onChange={(e) => setLastname(e.target.value)} />
+                                    <Form.Control placeholder="Masukkan lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} />
                                 </Form.Group>
                                 <Form.Text>{ validate.lastname && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.lastname}</p> }</Form.Text>
                             </div>

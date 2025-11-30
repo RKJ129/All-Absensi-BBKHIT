@@ -56,7 +56,7 @@ export default function MonitorPegawai() {
           }
         </MapContainer>
       </Col>
-      <Col sm={12} className='mt-3'>
+      {/* <Col sm={12} className='mt-3'>
         <MainCard title="Monitor Pegawai">
           <Col sm={4}>
           <ul>
@@ -64,7 +64,7 @@ export default function MonitorPegawai() {
           </ul>
           </Col>
         </MainCard>
-      </Col>
+      </Col> */}
     </Row>
   );
 }

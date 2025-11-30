@@ -70,11 +70,11 @@ export default function SignIn1() {
                   </InputGroup>
                   <Form.Text>{ validate.password && <p style={{ color: "red", fontSize: '0.8rem' }} className='mt-1 text-start'>{validate.password}</p> }</Form.Text>
                 </div>
-                <Form.Group>
+                {/* <Form.Group>
                   <Form.Check type="checkbox" className="text-left mb-4 mt-2" label="Save Credentials." defaultChecked />
-                </Form.Group>
+                </Form.Group> */}
                 <Button className="btn btn-block btn-primary mb-4" onClick={login}>Signin</Button>
-                <p className="mb-2 text-muted">
+                {/* <p className="mb-2 text-muted">
                   Forgot password?{' '}
                   <NavLink to="#" className="f-w-400">
                     Reset
@@ -85,7 +85,7 @@ export default function SignIn1() {
                   <NavLink to="/register" className="f-w-400">
                     Signup
                   </NavLink>
-                </p>
+                </p> */}
               </Card.Body>
             </Col>
           </Row>

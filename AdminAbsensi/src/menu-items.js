@@ -46,7 +46,8 @@ const menuItems = {
           type: 'item',
           'icon': 'material-icons-two-tone',
           'iconname': 'supervisor_account',
-          url: '/admin'
+          url: '/admin',
+          roles: ['superadmin']
         },
         {
           id: 'tunjangan',
