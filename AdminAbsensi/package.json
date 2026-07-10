@@ -16,7 +16,6 @@
     "dayjs": "^1.11.18",
     "exceljs": "^4.4.0",
     "feather-icons-react": "^0.7.0",
-    "file-saver": "^2.0.5",
     "jspdf": "^3.0.2",
     "jspdf-autotable": "^5.0.2",
     "leaflet": "^1.9.4",
