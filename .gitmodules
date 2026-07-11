@@ -1,3 +1,9 @@
+[submodule "AbsensiBBKHIT"]
+	path = AbsensiBBKHIT
+	url = https://github.com/RKJ129/absensiBBKHIT.git
 [submodule "AdminAbsensiBBKHIT"]
 	path = AdminAbsensiBBKHIT
 	url = https://github.com/RKJ129/adminAbsensiBBKHIT.git
+[submodule "Backend-Absensi-BBKHIT"]
+	path = Backend-Absensi-BBKHIT
+	url = https://github.com/RKJ129/Backend-Absensi-BBKHIT.git
